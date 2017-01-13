@@ -1,0 +1,76 @@
+<h1>{{title}}</h1>
+<div class="alert alert-danger" *ngIf="isAlertActive">
+    <strong>{{alertMessage}}</strong>
+</div>
+<form (ngSubmit)="onSubmit(f)" #f="ngForm" *ngIf="isActive">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <label for="firstName">First name</label>
+            <input type="text"
+                   class="form-control"
+                   id="firstName"
+                   [(ngModel)]="user.firstName"
+                   name="firstName"
+                   required
+                   minlength="3" maxlength="60"
+                   #firstName="ngModel">
+            <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)" class="alert alert-danger">
+                <div [hidden]="!firstName.errors.required">
+                    First name is required
+                </div>
+                <div [hidden]="!firstName.errors.minlength">
+                    First name must be at least 3 characters long.
+                </div>
+                <div [hidden]="!firstName.errors.maxlength">
+                    First name cannot be more than 60 characters long.
+                </div>
+            </div>
+            <label for="lastName">Last name</label>
+            <input type="text"
+                   class="form-control"
+                   id="lastName"
+                   [(ngModel)]="user.lastName"
+                   name="lastName"
+                   required
+                   minlength="3" maxlength="60"
+                   #lastName="ngModel">
+            <div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)" class="alert alert-danger">
+                <div [hidden]="!lastName.errors.required">
+                    Last name is required
+                </div>
+                <div [hidden]="!lastName.errors.minlength">
+                    Last name must be at least 3 characters long.
+                </div>
+                <div [hidden]="!lastName.errors.maxlength">
+                    Last name cannot be more than 60 characters long.
+                </div>
+            </div>
+            <label for="email">E-Mail</label>
+            <input type="text"
+                   class="form-control"
+                   id="email"
+                   [(ngModel)]="user.email"
+                   name="email"
+                   required
+                   pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+                   #email="ngModel">
+            <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+                Invalid email.
+            </div>
+            <label for="country">Country</label>
+            <select
+                    name="country"
+                    class="form-control"
+                    [(ngModel)]="user.country"
+                    required>
+                <option
+                        *ngFor="let o of countries"
+                        [value]="o.id"
+                >{{o.name}}
+                </option>
+            </select>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Submit</button>
+            <button type="button" routerLink="/list" class="btn btn-primary">Cancel</button>
+        </div>
+    </div>
+</form>
